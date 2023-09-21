@@ -10,7 +10,7 @@ const App = () => {
     try {
       const response = await fetch(`http://localhost:8000/todos/${userEmail}`);
       const json = await response.json();
-      console.log(json);
+      console.log('tasks:', json);
       setTasks(json);
     }
     catch (error) {
@@ -19,7 +19,6 @@ const App = () => {
   };
 
   useEffect(() => getData, []);
-  // console.log('tasks:', tasks);
 
   // Sort by date
   const sortedTasks = tasks?.sort((a, b) => new Date(a.date) - new Date(b.date));

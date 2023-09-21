@@ -19,8 +19,27 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
       });
-      if (response.status) {
-        console.log('success!');
+      if (response.status === 200) {
+        // console.log('success!');
+        setShowModal(false);
+        getData();
+      }
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
+
+  const editData = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:8000/todos/${task.id}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      })
+      if (response.status === 200) {
+        // console.log('success!');
         setShowModal(false);
         getData();
       }
@@ -33,7 +52,6 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
   const handleChange = (e) => {
     // console.log("changing!", e);
     const { name, value } = e.target;
-
     setData((data) => ({
       ...data,
       [name]: value,
@@ -68,7 +86,7 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
             value={data.progress}
             onChange={handleChange}
           />
-          <input className={mode} type="submit" onClick={editMode ? '' : postData}/>
+          <input className={mode} type="submit" onClick={editMode ? editData : postData}/>
         </form>
       </div>
     </div>
