@@ -25,7 +25,7 @@ const Auth = () => {
           <button
             onClick={() => viewLogin(false)}
             style={{
-              backgroundColor: !isLogin ? "rgb(255, 255, 255)" : "rbg(188, 188, 188)",
+              backgroundColor: !isLogin ? "rgb(255, 255, 255)" : "rgb(188, 188, 188)",
             }}
           >
             Sign Up
@@ -33,7 +33,7 @@ const Auth = () => {
           <button
             onClick={() => viewLogin(true)}
             style={{
-              backgroundColor: isLogin ? "rgb(255, 255, 255)" : "rbg(188, 188, 188)",
+              backgroundColor: isLogin ? "rgb(255, 255, 255)" : "rgb(188, 188, 188)",
             }}
           >
             Login
