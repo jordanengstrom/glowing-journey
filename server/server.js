@@ -4,6 +4,8 @@ const cors = require('cors');
 const app = express();
 const pool = require('./db');
 const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 app.use(cors());
 app.use(express.json());
@@ -11,7 +13,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // get all todos
 app.get('/todos/:userEmail', async (req, res) => {
-    // console.log('REQ:', req);
     const { userEmail } = req.params;
     console.log('userEmail:', userEmail)
     try {
@@ -61,6 +62,34 @@ app.delete('/todos/:id', async (req, res) => {
         res.json(deleteToDo);
     }
     catch (err) {
+        console.error(err);
+    }
+});
+
+// signup
+app.post('/signup', async (req, res) => {
+    const { email, password} = req.body;
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+    try {
+        const signUp = await pool.query(`INSERT INTO users(email, password) VALUES ($1, $2);`,
+            [email, hashedPassword]);
+        const token = jwt.sign({ email }, 'secret', { expiresIn: '1h' });
+        res.json({ email, token })
+    } catch (err) {
+        console.error(err);
+        if (err) {
+            res.json({ detail: err.detail })
+        }
+    }
+});
+
+// login
+app.post('/login', async (req, res) => {
+    const { email, password} = req.body;
+    try {
+
+    } catch (err) {
         console.error(err);
     }
 });
